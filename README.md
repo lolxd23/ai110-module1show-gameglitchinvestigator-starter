@@ -61,17 +61,16 @@ Describe your fixed game in numbered steps so a reader can follow along without 
 ## 🧪 Test Results
 
 ```
-
-(base) hajramuzammal@Hajras-MacBook-Air ai110-module1show-gameglitchinvestigator-starter % pytest
-============================================= test session starts =============================================
+pytest
+=========================== test session starts ============================
 platform darwin -- Python 3.12.4, pytest-7.4.4, pluggy-1.0.0
 rootdir: /Users/hajramuzammal/ai110-module1show-gameglitchinvestigator-starter
 plugins: anyio-4.2.0
-collected 3 items                                                                                             
+collected 7 items                                                          
 
-tests/test_game_logic.py ...                                                                            [100%]
+tests/test_game_logic.py .......                                     [100%]
 
-============================================== 3 passed in 0.01s ==============================================
+============================ 7 passed in 0.01s =============================
 ```
 
 ## 🚀 Stretch Features
