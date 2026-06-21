@@ -8,7 +8,8 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 When I ran the game the first time, there was difficulty setting option where you can pick which level you want too. It was a simple game that wasnt hard to follow. I didnt find it engaging 
 - List at least two concrete bugs you noticed at the start  
   (for example: "the hints were backwards").
-  They were 2 bugs that I notice in this game was the range and the guessing. The range is 1-100, but it includes negative numbers which doesnt make sense. When I was off with my number, it would say go higher but it doesnt make sense why itll go higher (ex 101, go higher).
+
+They were 2 bugs that I notice in this game was the range and the guessing. The range is 1-100, but it includes negative numbers which doesnt make sense. When I was off with my number, it would say go higher but it doesnt make sense why itll go higher (ex 101, go higher).
 
 **Bug Reproduction Log**
 
@@ -52,11 +53,20 @@ Yeah, same way. Claude basically walked me through that 200 vs 42 example step b
 
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
 
+Streamlit is that it doesn't work like a normal app where clicking a button just updates one little part of the screen. Every single time you click anything — submit, a checkbox, literally anything — Streamlit reruns your entire Python script from the very top, like you just restarted the whole program from scratch. If that's all that happened, every variable would just reset back to its starting value every single click, which would be useless for something like a game where you need to remember the secret number, your score, and how many guesses you've made.
 ---
 
 ## 5. Looking ahead: your developer habits
 
 - What is one habit or strategy from this project that you want to reuse in future labs or projects?
+
+The habit I want to keep is tracing through the actual logic by hand with real numbers before trusting that something's fixed. Instead of just reading code and assuming it looks right, I'd plug in an actual example, like guess=200 and secret=42, and walk through exactly what each line would do with those values. That's basically what caught the real string-comparison bug in the first place. It's also what let me catch the moments where an AI claimed there were bugs that, when I actually checked, weren't really there
+
   - This could be a testing habit, a prompting strategy, or a way you used Git.
 - What is one thing you would do differently next time you work with AI on a coding task?
+
+I'd double-check AI explanations against the actual code a lot earlier instead of trusting a confident-sounding explanation at face value. A couple times the AI described bugs, like swapped hint messages or Hard mode having a smaller range, that just weren't true once I went and looked at the real file myself. Next time I'd open the actual lines being referenced right away instead of assuming the description was accurate just because it sounded specific and technical.
+
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+
+AI is genuinely useful for catching real bugs fast and explaining what broke, but it can also sound completely confident about something that turns out to be wrong, so I can't skip actually verifying the code myself. This project made me treat AI suggestions as a starting point to test and confirm, not a final answer I just copy-paste and move on from.
