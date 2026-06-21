@@ -25,21 +25,38 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [x] Describe the game's purpose.
+- [x] Detail which bugs you found.
+- [x] Explain what fixes you applied.
+
+**Purpose:** The app is a simple number-guessing game built in Streamlit. The player picks a difficulty, the app generates a secret number, and the player guesses repeatedly until they win, run out of attempts, or hit "New Game" to restart.
+
+**Bugs found:**
+1. `get_range_for_difficulty()` ignored the difficulty entirely and always returned a 1–100 range, so Easy/Normal/Hard all played identically.
+2. `check_guess()` was being fed the secret as a *string* on every other attempt due to a stray `str()` conversion at the call site. This caused a `TypeError`, which the code caught by converting the guess to a string too — meaning the comparison happened as text instead of numbers (e.g. `"200" > "42"` evaluates `False`), so guesses like 200 got told "go higher" when they were already way too high.
+3. `update_score()` had inconsistent scoring on "Too High" outcomes — on even-numbered attempts it added 5 points instead of subtracting, while "Too Low" always subtracted.
+4. `parse_guess()` had no bounds checking, so out-of-range guesses (like 200 in a 1–100 game) were silently accepted instead of being rejected.
+
+**Fixes applied:**
+1. Made `get_range_for_difficulty()` actually branch on difficulty (Easy: 1–50, Normal: 1–100, Hard: 1–200), and updated the "New Game" button and info banner to use the dynamic range instead of hardcoded `1, 100`.
+2. Removed the `str()` conversion entirely and rewrote `check_guess()` to cast both `guess` and `secret` to `int` before comparing — no more `try/except` needed.
+3. Fixed `update_score()` so "Too High" always subtracts 5 points, consistent with "Too Low".
+4. Added a range check in `parse_guess()` that rejects guesses outside `low`–`high` with a clear error message.
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. Run `streamlit run app.py` and select a difficulty (Easy, Normal, or Hard) from the sidebar — note the range now actually changes (e.g. Hard shows "Range: 1 to 200").
+2. Open "Developer Debug Info" to see the secret number for this round.
+3. Enter a guess in the text box and click "Submit Guess 🚀" — the hint correctly tells you to go higher or lower based on the *real* numeric comparison, even on attempts where the old bug used to trigger.
+4. Try an out-of-range guess (e.g. 200 on a 1–100 game) — the app now rejects it with an error instead of silently accepting it and giving a backwards hint.
+5. Keep guessing toward the secret number using the hints; each wrong guess correctly deducts points regardless of attempt number.
+6. Guess the secret number exactly — the app shows the balloons animation, declares the win, and displays your final score.
+7. Click "New Game 🔁" — a new secret number is generated within the correct range for your selected difficulty, not always 1–100.
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
+
 
 ## 🧪 Test Results
 
